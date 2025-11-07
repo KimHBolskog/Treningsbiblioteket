@@ -1,5 +1,4 @@
-const { useState } = React;
-
+import React, { useState } from "react";
 
 /**
  * Bilingual Website Starter (NO/EN) – Single‑file React
@@ -361,3 +360,5 @@ function Contact({ lang }) {
     console.warn("[TEST] Self-checks encountered an error:", e);
   }
 })();
+// ✅ gjør App global så main.jsx finner den
+window.App = App;
