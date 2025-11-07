@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState } from "https://esm.sh/react@18";
+
 
 /**
  * Bilingual Website Starter (NO/EN) – Single‑file React
