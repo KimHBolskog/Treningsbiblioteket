@@ -1,4 +1,4 @@
-import React, { useState } from "https://esm.sh/react@18";
+const { useState } = React;
 
 
 /**
