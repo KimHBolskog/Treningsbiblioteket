@@ -1,11 +1,7 @@
-// Minimal "entry" som monterer appen uten byggverktøy
-import React from "https://esm.sh/react";
-import { createRoot } from "https://esm.sh/react-dom/client";
+// Bootstrap React from CDN (no bundler)
+import React from "https://esm.sh/react@18";
+import { createRoot } from "https://esm.sh/react-dom@18/client";
+import App from "./App.jsx";
 
-// Du har default-eksport i App.jsx – importer som du vil:
-import App from "./App.jsx"; // eller: import BilingualSite from "./App.jsx"
-
-const rootEl = document.getElementById("root");
-const root = createRoot(rootEl);
-root.render(<App />);        // hvis du importerte App
-// root.render(<BilingualSite />); // hvis du importerte BilingualSite
+const container = document.getElementById("root");
+createRoot(container).render(<App />);
