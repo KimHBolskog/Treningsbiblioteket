@@ -2,24 +2,139 @@
 <html lang="no">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Treningsbiblioteket</title>
 
-    <!-- Babel Standalone: transpilerer JSX i nettleseren -->
+    <!-- React 18 UMD: ingen moduler, ingen build -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Babel Standalone: transpilér JSX i nettleseren -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+      body { margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+      header, section, footer { padding: 24px; }
+      header { display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid #eee; }
+      nav { display: flex; gap: 12px; }
+      button { padding: 8px 12px; border: 1px solid #ddd; background: #fff; border-radius: 8px; cursor: pointer; }
+      button:hover { background: #f6f6f6; }
+      .logo {
+        width: 36px; height: 36px; border-radius: 10px; background: #000; color: #fff;
+        display: inline-flex; align-items: center; justify-content: center; font-weight: 800;
+      }
+      footer { margin-top: 40px; border-top: 1px solid #eee; }
+    </style>
   </head>
   <body>
     <div id="root"></div>
 
-    <!-- Kjør main.jsx som "text/babel" + modul med React-preset -->
-    <script
-      type="text/babel"
-      data-type="module"
-      data-presets="react"
-      src="/main.jsx"
-    ></script>
+    <!-- Hele appen i én babel-script (ingen stier som kan feile) -->
+    <script type="text/babel">
+      const { useState } = React;
+
+      function LogoTB() { return <span className="logo">TB</span>; }
+
+      const content = {
+        siteName: { no: "Treningsbiblioteket", en: "Treningsbiblioteket" },
+        nav: {
+          home: { no: "Hjem", en: "Home" },
+          about: { no: "Om", en: "About" },
+          services: { no: "Tjenester", en: "Services" },
+          contact: { no: "Kontakt", en: "Contact" },
+        },
+        hero: {
+          title: {
+            no: "Bygg en sterk kropp – trygt og smart",
+            en: "Build a strong body – safely and smart",
+          },
+          subtitle: {
+            no: "Finn øvelser, programmer og forklaringer tilpasset målet ditt.",
+            en: "Discover exercises, programs and explanations tailored to your goal.",
+          },
+          cta: { no: "Kom i gang", en: "Get started" },
+        },
+        features: [
+          {
+            title: { no: "Kjernemuskulatur", en: "Core Strength" },
+            body: {
+              no: "Øvelser som planke, dead bug og anti-rotasjon.",
+              en: "Exercises like plank, dead bug and anti-rotation.",
+            },
+          },
+          {
+            title: { no: "Mobilitet", en: "Mobility" },
+            body: {
+              no: "Rutiner som forbedrer teknikk og bevegelse.",
+              en: "Routines that improve technique and movement.",
+            },
+          },
+          {
+            title: { no: "Kondisjon", en: "Conditioning" },
+            body: {
+              no: "Intervaller og enkle løpeopplegg.",
+              en: "Intervals and simple running programs.",
+            },
+          },
+        ],
+        footer: {
+          copy: {
+            no: "© 2025 Treningsbiblioteket. Alle rettigheter forbeholdt.",
+            en: "© 2025 Treningsbiblioteket. All rights reserved.",
+          },
+        },
+      };
+
+      function App() {
+        const [lang, setLang] = useState("no");
+        const [section, setSection] = useState("home");
+
+        return (
+          <>
+            <header>
+              <LogoTB />
+              <nav>
+                {Object.keys(content.nav).map((key) => (
+                  <button key={key} onClick={() => setSection(key)}>
+                    {content.nav[key][lang]}
+                  </button>
+                ))}
+              </nav>
+              <button onClick={() => setLang(lang === "no" ? "en" : "no")}>
+                {lang.toUpperCase()}
+              </button>
+            </header>
+
+            {section === "home" && (
+              <section>
+                <h1>{content.hero.title[lang]}</h1>
+                <p>{content.hero.subtitle[lang]}</p>
+                <button onClick={() => setSection("services")}>
+                  {content.hero.cta[lang]}
+                </button>
+              </section>
+            )}
+
+            {section === "services" && (
+              <section>
+                <h2>{content.nav.services[lang]}</h2>
+                <ul>
+                  {content.features.map((f, i) => (
+                    <li key={i}>
+                      <strong>{f.title[lang]}</strong>: {f.body[lang]}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            <footer>{content.footer.copy[lang]}</footer>
+          </>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
   </body>
 </html>
